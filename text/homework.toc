@@ -1,0 +1,7 @@
+\select@language {english}
+\contentsline {section}{\numberline {1}Bayes Networks}{2}
+\contentsline {subsection}{\numberline {1.1}Variables}{2}
+\contentsline {subsection}{\numberline {1.2}Bayesian Network drawing}{2}
+\contentsline {subsection}{\numberline {1.3}CPT 1}{2}
+\contentsline {subsection}{\numberline {1.4}CPT 2}{2}
+\contentsline {subsection}{\numberline {1.5}Expression for TopOfTheHour}{2}

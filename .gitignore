@@ -1,0 +1,14 @@
+*.npy
+**/*.pyc
+drebin/*
+data/*
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.~*
+# IPython notebook checkpoints
+.ipynb_checkpoints
