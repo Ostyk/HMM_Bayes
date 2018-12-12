@@ -11,6 +11,7 @@ class MyHMM(object):
         self.T = to_mat(model["T"])
         self.O = np.diag(model["O"])
         self.pi = np.array(model["pi"])
+        print("transition model:\n{}\nObservation Model:\n{}\nInitial probabilities:\n{}".format(self.T,self.O,self.pi))
         return None
 
     def sample(self, N_seq, len_):
@@ -47,7 +48,9 @@ class MyHMM(object):
         fw[:, 0] = self.pi #prior information
         for obs_ind in range(k):
             f_row_vec = np.matrix(fw[:,obs_ind])
-            fw[:, obs_ind+1] = f_row_vec*np.matrix(self.T)*np.matrix(np.diag(self.O[:,obs[obs_ind]]))
+            fw[:, obs_ind+1] = f_row_vec * \
+                               np.matrix(self.T) * \
+                               np.matrix(np.diag(self.O[:,obs[obs_ind]]))
             fw[:, obs_ind+1] /= np.sum(fw[:,obs_ind+1]) # normalize and store
         return np.array(fw)
 
@@ -57,7 +60,9 @@ class MyHMM(object):
         bw[:,-1] = 1.0 #vector of ones smoothing part
         for obs_ind in range(k, 0, -1):
             b_col_vec = np.mat(bw[:,obs_ind]).T
-            bw[:, obs_ind-1] = (np.matrix(self.T)*np.matrix(np.diag(self.O[:,obs[obs_ind-1]]))*b_col_vec).T
+            bw[:, obs_ind-1] = (np.matrix(self.T) *
+                                np.matrix(np.diag(self.O[:,obs[obs_ind-1]])) *
+                                b_col_vec).T
             bw[:,obs_ind-1] /= np.sum(bw[:,obs_ind-1]) # normalize and store
         return np.array(bw)
 
