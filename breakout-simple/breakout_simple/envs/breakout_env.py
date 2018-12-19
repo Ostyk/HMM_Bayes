@@ -23,9 +23,6 @@ class BreakoutEnv(gym.Env):
         '''rules of the game'''
         G, W, R, P = ['G', 'X', '\u00B7', '\u15E7']
         new_pos = self._take_action(action)
-
-
-
         #if self.observation_space(new_pos) == R:
         #    print("reward")
         #self.status = self.step()
@@ -35,7 +32,7 @@ class BreakoutEnv(gym.Env):
 
     def _reset(self):
         '''what happens when we lose'''
-        "YOU LOST"
+        print("YOU DIED!")
         pass
 
     def _render(self, mode='human', close=False):
@@ -70,23 +67,23 @@ class BreakoutEnv(gym.Env):
                 new_pos = [x, y+1]
         return new_pos
 
-
-
-        pass
-
     def _get_reward(self,new_pos):
         G, W, R, P = ['G', 'X', '\u00B7', '\u15E7']
-        #print("reward")
         if new_pos is not None:
              in_cell = self.observation_space[new_pos]
              if in_cell == G:
-                 #self.reset()
-                 return 0
-             elif in_cell==R:
-                 x,y = np.where(self.observation_space=='\u15E7')
+                 self._reset()
+                 return 9 #game over
+             elif in_cell==R: #next block is a reward
+                 x,y = np.where(self.observation_space==P)
                  self.observation_space[x,y] = ' '
                  self.observation_space[new_pos] = P
                  return 1
+             else: #next block is empty
+                 x,y = np.where(self.observation_space==P)
+                 self.observation_space[x,y] = ' '
+                 self.observation_space[new_pos] = P
+                 return 0
         else:
             return 0
 
