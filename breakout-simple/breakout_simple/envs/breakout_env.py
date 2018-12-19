@@ -21,14 +21,21 @@ class BreakoutEnv(gym.Env):
     def _step(self, action):
         #actions is UP, DOWN, LEFT, RIGHT  = [0,1,2,3]
         '''rules of the game'''
-        self._take_action(action)
-        self.status = self.env.step()
-        reward = self._get_reward()
-        ob = self.env.getState()
+        G, W, R, P = ['G', 'X', '\u00B7', '\u15E7']
+        new_pos = self._take_action(action)
+
+
+
+        #if self.observation_space(new_pos) == R:
+        #    print("reward")
+        #self.status = self.step()
+        reward = self._get_reward(new_pos)
+        ob = self.observation_space
         return ob, reward
 
     def _reset(self):
         '''what happens when we lose'''
+        "YOU LOST"
         pass
 
     def _render(self, mode='human', close=False):
@@ -39,11 +46,11 @@ class BreakoutEnv(gym.Env):
         G, W, R, P = ['G', 'X', '\u00B7', '\u15E7']
         #ghost, wall, reward,
         d = {0:"UP", 1:"DOWN", 2:"LEFT", 3:"RIGHT",}
-        print("CURRENT ACTION: {}\n".format(d[action]))
-        print(self.observation_space.shape)
+        print("MOVE: {}\n".format(d[action]))
+        #print(self.observation_space.shape)
         #x, y = np.array(np.where(self.observation_space=='\u15E7')).reshape(1,-1)[0][0]
         x,y = np.where(self.observation_space=='\u15E7')
-        print(x,y)
+        #print(x,y)
         new_pos = None
         if action == 0: #up
             value_check = self.observation_space[x-1, y]
@@ -61,21 +68,27 @@ class BreakoutEnv(gym.Env):
             value_check = self.observation_space[x, y+1]
             if value_check!=W:
                 new_pos = [x, y+1]
-        print(new_pos)
-        return self.observation_space
+        return new_pos
 
 
 
         pass
 
-    def _get_reward(self):
-        """ Reward is given for XY. """
-        if self.status == FOOBAR:
-            return 1
-        elif self.status == ABC:
-            return self.somestate ** 2
+    def _get_reward(self,new_pos):
+        G, W, R, P = ['G', 'X', '\u00B7', '\u15E7']
+        #print("reward")
+        if new_pos is not None:
+             in_cell = self.observation_space[new_pos]
+             if in_cell == G:
+                 #self.reset()
+                 return 0
+             elif in_cell==R:
+                 x,y = np.where(self.observation_space=='\u15E7')
+                 self.observation_space[x,y] = ' '
+                 self.observation_space[new_pos] = P
+                 return 1
         else:
-            return
+            return 0
 
 
     def create_obs_space(self):
