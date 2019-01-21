@@ -12,5 +12,5 @@ Sapienza University of Rome
 
 * Part 2: [my_hmm.py](my_hmm.py)
 
-* Part 3: [breakout-simple](my_hmm.py)
+* Part 3: [breakout-simple](breakout-simple)
 This folder is structured to work with the open-AI gym template for new games
