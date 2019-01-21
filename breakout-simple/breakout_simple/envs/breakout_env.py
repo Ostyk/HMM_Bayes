@@ -38,7 +38,6 @@ class BreakoutEnv(gym.Env):
     def _render(self, mode='human', close=False):
         self.pretty_print()
 
-
     def _take_action(self, action):
         G, W, R, P = ['G', 'X', '\u00B7', '\u15E7']
         #ghost, wall, reward,
@@ -70,19 +69,19 @@ class BreakoutEnv(gym.Env):
     def _get_reward(self,new_pos):
         G, W, R, P = ['G', 'X', '\u00B7', '\u15E7']
         if new_pos is not None:
-             in_cell = self.observation_space[new_pos]
+             in_cell = self.observation_space[tuple(new_pos)]
              if in_cell == G:
                  self._reset()
                  return 9 #game over
              elif in_cell==R: #next block is a reward
                  x,y = np.where(self.observation_space==P)
                  self.observation_space[x,y] = ' '
-                 self.observation_space[new_pos] = P
+                 self.observation_space[tuple(new_pos)] = P
                  return 1
              else: #next block is empty
                  x,y = np.where(self.observation_space==P)
                  self.observation_space[x,y] = ' '
-                 self.observation_space[new_pos] = P
+                 self.observation_space[tuple(new_pos)] = P
                  return 0
         else:
             return 0
@@ -95,7 +94,7 @@ class BreakoutEnv(gym.Env):
         G, W, R, P = ['G', 'X', '\u00B7', '\u15E7']
         as_ = np.empty(shape=[self.size, self.size], dtype='<U1')
         as_[:] = ' '
-        N_ghosts, N_walls, N_reward = int(1*self.size), int(4*self.size), int(7*self.size)
+        N_ghosts, N_walls, N_reward = int(1*self.size), int(8*self.size), int(9*self.size)
         sum_ = N_ghosts + N_reward + N_walls
         pos = lambda x: (np.random.randint(x), np.random.randint(x))
         elem, count = [], 1

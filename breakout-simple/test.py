@@ -22,6 +22,7 @@ if __name__ == '__main__':
             if rew == 9:
                 os.system('clear')
                 print("You died, let's try again")
+                r=0
                 time.sleep(1)
 
             if rew == 1: r+=1
