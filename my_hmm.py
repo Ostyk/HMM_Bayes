@@ -1,6 +1,8 @@
 import numpy as np
 
 class MyHMM(object):
+    '''Hidden Markov Model implementation'''
+    
     def __init__(self,model_name):
         '''
         T -- transition model probabilities
@@ -27,23 +29,23 @@ class MyHMM(object):
         observations = states.copy()
         rain = 0
         for sequence in range(N_seq):
-            R_t = np.random.binomial(n=1, p=self.pi[0])
+            R_t = np.random.binomial(n=1, p=self.pi[0]) #R_(t-1)
             if R_t == 1: rain+=1
             for i in range(len_):
-                if R_t==0:
+                if R_t==0: #no rain
                     U_t = np.random.binomial(n=1, p=self.O[1,1])
-                    R_t = np.random.binomial(n=1, p=self.T[0,0])
-                elif R_t==1:
+                    R_t = np.random.binomial(n=1, p=self.T[0,0]) 
+                elif R_t==1: # rain
                     U_t = np.random.binomial(n=1, p=self.O[0,0])
                     R_t = np.random.binomial(n=1, p=self.T[1,1])
                 states[sequence,i]=R_t
                 observations[sequence,i]=U_t
 
-        print("\nRain on the first day: {}/{} times".format(rain,N_seq))
+        print("\nRain on the first day: {}/{} times".format(rain, N_seq))
         return states, observations
 
     def forward(self, n, k, obs):
-        '''forawrd part'''
+        '''forward part'''
         fw = np.zeros((n,k+1))
         fw[:, 0] = self.pi #prior information
         for obs_ind in range(k):
@@ -55,7 +57,7 @@ class MyHMM(object):
         return np.array(fw)
 
     def backward(self, n, k, obs):
-        '''forawrd part'''
+        '''backward part'''
         bw = np.zeros((n,k+1))
         bw[:,-1] = 1.0 #vector of ones smoothing part
         for obs_ind in range(k, 0, -1):
@@ -76,10 +78,11 @@ class MyHMM(object):
         return prob_mat, fw, bw
 
 
-def observation_check(ind, current_observation, probabilities):
-    correct = np.count_nonzero(current_observation == probabilities[1,:][1:])
+def state_check(ind, current_observation, probabilities):
+    correct = np.sum(current_observation == probabilities[1,:][1:])
     l = len(current_observation)
-    print("\tS_{}: {} / {}".format(ind,correct,l))
+    space = " "*(3-len(str(ind)))
+    print("\ts{}:{}{}/{}".format(ind,space,correct,l))
 
 if __name__ == '__main__':
     model = {"T":[0.7,0.3],
@@ -90,9 +93,11 @@ if __name__ == '__main__':
 
     M = MyHMM(model)
     states, observations = M.sample(N_sequences, length)
+    #Hidden no rain = 0 or rain = 1
+    #observation no umbrella = 0 or umbrella = 1
 
     print("\nNumber of correct estimates for each sequence S:")
     for i in range(N_sequences):
-        current_observation = observations[:,i]
-        probabilities, fw, bw = M.forward_backward(current_observation)
-        observation_check(i, current_observation, probabilities)
+        current_state = states[i]
+        probabilities, fw, bw = M.forward_backward(observations[i])
+        state_check(i, current_state, probabilities)

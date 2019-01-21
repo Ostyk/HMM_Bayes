@@ -87,27 +87,36 @@ class BreakoutEnv(gym.Env):
             return 0
 
 
-    def create_obs_space(self):
+    def create_obs_space(self, random_ = False):
         '''
         for pretty printing-keep size less than 10.
         '''
         G, W, R, P = ['G', 'X', '\u00B7', '\u15E7']
         as_ = np.empty(shape=[self.size, self.size], dtype='<U1')
         as_[:] = ' '
-        N_ghosts, N_walls, N_reward = int(1*self.size), int(8*self.size), int(9*self.size)
-        sum_ = N_ghosts + N_reward + N_walls
+        for i in range(1,5,2):
+            as_[1:5][:,i] = W
+            as_[7:9][:,i] = W
+        for i in range(6,10,2):
+            as_[1:5][:,i] = W
+            as_[7:9][:,i] = W
+
+        N_ghosts, N_reward = int(1*self.size/2), int(5*self.size)
+        sum_ = N_ghosts + N_reward
         pos = lambda x: (np.random.randint(x), np.random.randint(x))
-        elem, count = [], 1
-        while len(elem)<=sum_+1:
+        elem, ind = [], 1
+        while ind < (sum_ + 1):
             sample = pos(self.size)
-            if sample not in elem:
-                s = pos(self.size)
-                elem.append(s)
-                if count<=N_ghosts: as_[s] = G #ghosts
-                if N_ghosts < count <= N_ghosts + N_walls: as_[s] = W#walls
-                if count > N_ghosts + N_walls: as_[s] = R  # reward
-                if count == sum_+2: as_[s] = P #pacman
-                count+=1
+            if sample not in elem and as_[sample]==' ':
+                elem.append(sample)
+                if ind<=N_ghosts:
+                    as_[sample] = G #ghosts
+                elif N_ghosts < ind < sum_:
+                    as_[sample] = R  # reward
+                elif ind == sum_:
+                    as_[sample] = P #pacman
+                ind+=1
+
         y=np.empty((self.size+2,self.size+2), dtype='<U1')
         as_[as_ == ''] = ' '
         y[:]='X'
@@ -119,11 +128,3 @@ class BreakoutEnv(gym.Env):
         y=self.observation_space
         pp = lambda x: print(re.sub('[\'[\]]', '', np.array_str(x)))
         for i in y: pp(i)
-
-
-
-"""i make a new file  like cartpole.py and i used only the name of 3 function:init step and reset.
- Into "init" i have inizialize an array of array (matrix 10x10) and i choose where put pacman,ghost,wall, etc.... (like fully observable environment).
-Into" step" i wrote the rules of the game, for example how my pacman must move and what happen if my pacman meet ghosts or walls.
-Into "reset" i have specify what happen when my agent will dead.
-this is what my friend said"""
