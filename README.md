@@ -1,7 +1,7 @@
 # HMM_Bayes
-Probabilistic Reasoning Homework
-Prof. Cappobianco
-Sapienza University of Rome
+- Probabilistic Reasoning Homework
+-  Prof. Capobianco
+- Sapienza University of Rome
 
 # Installation
 - Python 3.6.4
