@@ -18,7 +18,7 @@ python3 hmmy.py
 * Part 3: [breakout-simple](breakout-simple)
 This folder is structured to work with the open-AI gym template for new games
 
-Running the simulation of 5 random moves:
+Running the simulation of random moves until the reward score = 5:
 ```
-python3 test.py 5
+python3 breakout-simple/test.py 5
 ```
