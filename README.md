@@ -22,3 +22,7 @@ Running the simulation of random moves until the reward score = 5:
 ```
 python3 breakout-simple/test.py 5
 ```
+
+## Demo
+[![Demo](https://j.gifs.com/q7RjWG.gif)](https://www.youtube.com/watch?v=ek1j272iAmc)
+
