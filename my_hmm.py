@@ -2,7 +2,7 @@ import numpy as np
 
 class MyHMM(object):
     '''Hidden Markov Model implementation'''
-    
+
     def __init__(self,model_name):
         '''
         T -- transition model probabilities
@@ -34,7 +34,7 @@ class MyHMM(object):
             for i in range(len_):
                 if R_t==0: #no rain
                     U_t = np.random.binomial(n=1, p=self.O[1,1])
-                    R_t = np.random.binomial(n=1, p=self.T[0,0]) 
+                    R_t = np.random.binomial(n=1, p=self.T[0,0])
                 elif R_t==1: # rain
                     U_t = np.random.binomial(n=1, p=self.O[0,0])
                     R_t = np.random.binomial(n=1, p=self.T[1,1])
@@ -101,3 +101,35 @@ if __name__ == '__main__':
         current_state = states[i]
         probabilities, fw, bw = M.forward_backward(observations[i])
         state_check(i, current_state, probabilities)
+
+##############################
+# Result of running the file #
+##############################
+
+# transition model:
+# [[0.7 0.3]
+#  [0.3 0.7]]
+# Observation Model:
+# [[0.9 0. ]
+#  [0.  0.2]]
+# Initial probabilities:
+# [0.5 0.5]
+#
+# Rain on the first day: 5/15 times
+#
+# Number of correct estimates for each sequence S:
+# 	s0:  12/20
+# 	s1:  8/20
+# 	s2:  15/20
+# 	s3:  14/20
+# 	s4:  10/20
+# 	s5:  12/20
+# 	s6:  10/20
+# 	s7:  12/20
+# 	s8:  12/20
+# 	s9:  14/20
+# 	s10: 6/20
+# 	s11: 12/20
+# 	s12: 12/20
+# 	s13: 14/20
+# 	s14: 15/20
