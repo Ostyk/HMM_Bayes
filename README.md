@@ -11,6 +11,14 @@
 * Part 1: [this PDF in the text folder](text/homework.pdf)
 
 * Part 2: [my_hmm.py](my_hmm.py)
-
+The test the Forward-Backward algorithm and to verify the estimate of the state:
+```
+python3 hmmy.py
+```
 * Part 3: [breakout-simple](breakout-simple)
 This folder is structured to work with the open-AI gym template for new games
+
+Running the simulation of 5 random moves:
+```
+python3 test.py 5
+```
