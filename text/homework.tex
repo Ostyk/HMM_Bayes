@@ -105,10 +105,9 @@ $F$    & $F$    &   $0$         \\ \hline
 \subsection{Expression for TopOfTheHour}
 \begin{equation}
 \begin{aligned}
-P(T \mid W, C, A) &= \alpha P (W, C, A \mid T) P(T) \\
-&= \alpha P (W \mid T) P (C \mid T) P (A \mid T) P(T) \\
-&= \alpha P(W) P(C \mid T) P (A) P(T) \\
-&= P(T \mid C) P(W) P (A) 
+P(T \mid W, A, C, \neg CA, \neg CB) &= \frac{P(T, W, A, C, \neg CA, \neg CB)}{P(W, A, C,  \neg CA, \neg CB)} \\ 
+&=  \frac{P(T) P(W) P(A|C,W) P(C| \neg CA, \neg CB, T) P(\neg CA) P(\neg CB)}{ P(W) P(A|C,W) P(C| \neg CA, \neg CB, T) P(\neg CA) P(\neg CB)}  \\
+&= P(T)
 \end{aligned}
 \end{equation}
 
