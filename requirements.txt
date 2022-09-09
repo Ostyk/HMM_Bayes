@@ -55,7 +55,7 @@ jsonschema==2.6.0
 jupyter-client==5.2.3
 jupyter-console==5.2.0
 jupyter-core==4.4.0
-jupyterhub==0.8.1
+jupyterhub==1.5.0
 Keras==2.1.5
 kiwisolver==1.0.1
 llvmlite==0.22.0
