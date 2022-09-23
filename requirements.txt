@@ -100,7 +100,7 @@ plotly==3.3.0
 ply==3.11
 preshed==2.0.1
 prompt-toolkit==1.0.15
-protobuf==3.5.2
+protobuf==3.18.3
 psutil==5.4.8
 ptyprocess==0.5.2
 py-thesaurus==1.0.5
